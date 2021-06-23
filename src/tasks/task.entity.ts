@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { TaskStatus } from './tasks.model';
+import { TaskStatus } from './task-status.enum';
 
 //@Entity decorator tells nest that the class is a DB entity
 @Entity()

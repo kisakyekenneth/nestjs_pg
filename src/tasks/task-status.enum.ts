@@ -1,9 +1,4 @@
-export interface Task {
-  id: string;
-  title: string;
-  description: string;
-  status: TaskStatus;
-}
+//We remove interface class because we now going to be dealing with the database directly
 
 export enum TaskStatus {
   //With "enum" we use a comma (,) at the end while in "Interfaces" we use (;)
