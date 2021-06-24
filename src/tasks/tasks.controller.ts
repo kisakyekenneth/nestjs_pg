@@ -11,6 +11,7 @@ import {
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskStatus } from './task-status.enum';
+import { Task } from './task.entity';
 import { TasksService } from './tasks.service';
 
 @Controller('tasks')
@@ -29,17 +30,17 @@ export class TasksController {
   //   }
   // }
 
-  // @Get('/:id')
-  // getTaskById(@Param('id') id: string): Task {
-  //   //Getting the parameter passed using @param('id') and storing them into an "id" of type string
-  //   return this.taskService.getTaskById(id);
-  // }
+  @Get('/:id')
+  getTaskById(@Param('id') id: string): Promise<Task> {
+    //Getting the parameter passed using @param('id') and storing them into an "id" of type string
+    return this.taskService.getTaskById(id);
+  }
 
-  // @Post()
-  // createTask(@Body() createTaskdto: CreateTaskDto): Task {
-  //   //Modifying our code to be able to capture data in-form of DTOs passed as parameters in the tables
-  //   return this.taskService.createTask(createTaskdto);
-  // }
+  @Post()
+  createTask(@Body() createTaskdto: CreateTaskDto): Promise<Task> {
+    //Modifying our code to be able to capture data in-form of DTOs passed as parameters in the tables
+    return this.taskService.createTask(createTaskdto);
+  }
 
   // @Delete('/:id')
   // deleteTask(@Param('id') id: string): void {

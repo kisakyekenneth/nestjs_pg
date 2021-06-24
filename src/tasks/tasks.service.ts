@@ -3,13 +3,44 @@ import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskStatus } from './task-status.enum';
 
 import { CreateTaskDto } from './dto/create-task.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { TasksRepository } from './tasks.repository';
+import { Task } from './task.entity';
+import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class TasksService {
+  //Injecting TasksRepostory into our "Service" to be able to use it
+  constructor(
+    @InjectRepository(TasksRepository)
+    private taskRepository: TasksRepository,
+  ) {}
+
+  async getTaskById(id: string): Promise<Task> {
+    const found = await this.taskRepository.findOne(id); //Within the repo findOne with given ID
+    if (!found) {
+      throw new NotFoundException('Task with Id "${id}" not found');
+    }
+    return found;
+  }
   // getTasks(): Task[] {
   //   // The tasks array is exposed on through the message to read from it
   //   return this.tasks;
   // }
+  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+    const { title, description } = createTaskDto;
+
+    //Create Object based on a repository(taskRepository)
+    const task = this.taskRepository.create({
+      title,
+      description,
+      status: TaskStatus.OPEN,
+    });
+
+    //Then the tastRepository handles task of saving it
+    await this.taskRepository.save(task);
+    return task;
+  }
   // createTask(createTaskDto: CreateTaskDto): Task {
   //   //Use the destructuring structure of ES6 to get title and description from DTO
   //   const { title, description } = createTaskDto;
@@ -23,9 +54,7 @@ export class TasksService {
   //   this.tasks.push(task);
   //   return task; //Return task to controller
   // }
-  // getTaskById(id: string): Task {
-  //   return this.tasks.find((task) => task.id === id);
-  // }
+
   // deleteTask(id: string): void {
   //   //Filter tasks and only store the tasks not containing the sent id
   //   this.tasks = this.tasks.filter((task) => task.id !== id);
