@@ -27,66 +27,34 @@ export class TasksService {
   //   // The tasks array is exposed on through the message to read from it
   //   return this.tasks;
   // }
-  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
-    const { title, description } = createTaskDto;
+  createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+    return this.taskRepository.createTask(createTaskDto);
+  }
 
-    //Create Object based on a repository(taskRepository)
-    const task = this.taskRepository.create({
-      title,
-      description,
-      status: TaskStatus.OPEN,
-    });
+  async deleteTask(id: string): Promise<void> {
+    const result = await this.taskRepository.delete(id);
+    //console.log(result);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Task  with ID "${id}" is not found`);
+    }
+  }
 
-    //Then the tastRepository handles task of saving it
+  async updateTaskStatus(id: string, status: TaskStatus): Promise<Task> {
+    //The the task that you want to update by id
+    const task = await this.getTaskById(id); //Re-using the getTaskById method to get Tasks given id,
+    task.status = status;
+    await this.taskRepository.save(task);
+    return task; //Return array of Tasks
+  }
+  // //Upate description
+  async updateTaskDescription(id: string, description: string): Promise<Task> {
+    const task = await this.getTaskById(id);
+    task.description = description;
     await this.taskRepository.save(task);
     return task;
   }
-  // createTask(createTaskDto: CreateTaskDto): Task {
-  //   //Use the destructuring structure of ES6 to get title and description from DTO
-  //   const { title, description } = createTaskDto;
-  //   const task: Task = {
-  //     //uuid an npm package used to auto-generate unique ids
-  //     id: uuid(),
-  //     title,
-  //     description,
-  //     status: TaskStatus.OPEN,
-  //   };
-  //   this.tasks.push(task);
-  //   return task; //Return task to controller
-  // }
-
-  // deleteTask(id: string): void {
-  //   //Filter tasks and only store the tasks not containing the sent id
-  //   this.tasks = this.tasks.filter((task) => task.id !== id);
-  // }
-  // updateTaskStatus(id: string, status: TaskStatus): Task {
-  //   //The the task that you want to update by id
-  //   const task = this.getTaskById(id); //Re-using the getTaskById method to get Tasks given id,
-  //   task.status = status;
-  //   return task; //Return array of Tasks
-  // }
-  // //Upate description
-  // updateTaskDescription(id: string, description: string): Task {
-  //   const task = this.getTaskById(id);
-  //   task.description = description;
-  //   return task;
-  // }
-  // getTaskWithFilters(filterDto: GetTasksFilterDto): Task[] {
-  //   const { status, search } = filterDto;
-  //   //Define a temporary array to hold the results
-  //   let allTasks = this.getTasks();
-  //   if (status) {
-  //     //filter through array of tasks with "task" as the iterator to find if task.status in array = querried status
-  //     allTasks = allTasks.filter((task) => task.status === status); //Only those with status we are looking for will be stored.
-  //   }
-  //   if (search) {
-  //     allTasks = allTasks.filter((task) => {
-  //       if (task.title.includes(search) || task.description.includes(search)) {
-  //         return true; //Includes used to filter and compare array with search string
-  //       }
-  //       return false;
-  //     });
-  //   }
-  //   return allTasks;
-  // }
+  //Get all the tasks
+  async getTasks(filterDto: GetTasksFilterDto): Promise<Task[]> {
+    return this.taskRepository.getTasks(filterDto);
+  }
 }
