@@ -3,6 +3,28 @@ npm install @nestjs/jwt @nestjs/passport passport passport-jwt
 @nestjs/jwt:- integrate jwt with nestjs
 @nestjs/passport:- integrates passport with nestjs
 
+*****************************
+What are they;
+---Usable for Authorization or secure exchange of information btn parties
+---Verify that the sender is who he/she claims to be
+---Signed by the issuer, using a secret or keypair 
+
+JWT Structure:
+----Header:- Contains metadata about the token (Type, hashing algorithms etc)
+----Payload:- Contains claims (Statement about an Entity -eg a user and additional data)
+----Signature:- Is the result of the encoded header, the encoded Payload, Signed against a secret
+------Signatures are derived by the Header and Payload
+------We always sign a token with an expiration time
+eg { 
+    "username": 'ken',
+    "role": 'admin',
+    "iat": 122929, //created at the time
+    "exp" 1800, //The seconds it's availed before it expires
+}
+
 
 //Password hashing and comparison using bcrypt
 npm install bcrypt
+
+//Website to check accessToken
+***** https://jwt.io/
