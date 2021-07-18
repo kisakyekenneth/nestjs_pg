@@ -1,0 +1,8 @@
+//JWT tokens
+npm install @nestjs/jwt @nestjs/passport passport passport-jwt
+@nestjs/jwt:- integrate jwt with nestjs
+@nestjs/passport:- integrates passport with nestjs
+
+
+//Password hashing and comparison using bcrypt
+npm install bcrypt
