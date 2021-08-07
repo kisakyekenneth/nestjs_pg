@@ -5,22 +5,10 @@ import { AppService } from './app.service';
 import { TasksModule } from './tasks/tasks.module';
 //import { AuthModule } from './auth/auth.module';
 import { AuthModule } from './auth/auth.module';
+import { typeormConfig } from './config/typeorm.config';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'paula2015',
-      database: 'task-management',
-      autoLoadEntities: true,
-      synchronize: true,
-    }),
-    TasksModule,
-    AuthModule,
-  ],
+  imports: [TypeOrmModule.forRoot(typeormConfig), TasksModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

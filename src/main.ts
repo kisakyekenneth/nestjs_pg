@@ -9,7 +9,7 @@ async function bootstrap() {
     preflightContinue: false,
     optionsSuccessStatus: 204,
   });
-  await app.listen(3006);
-  console.log('Listen on port 3006');
+  await app.listen(process.env.PORT);
+  console.log(`Listen on port ${process.env.PORT}`);
 }
 bootstrap();
