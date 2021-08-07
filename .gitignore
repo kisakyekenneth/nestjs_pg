@@ -2,6 +2,9 @@
 /dist
 /node_modules
 
+#files to use
+src/all_installs_needed.txt 
+
 # Logs
 logs
 *.log
