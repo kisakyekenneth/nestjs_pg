@@ -31,3 +31,6 @@ npm install bcrypt
 
 //Website to check accessToken
 ***** https://jwt.io/
+
+//Sending of EMAIL_SENDER
+https://mailtrap.io/inboxes/1459562/messages/2347080724

@@ -10,6 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { IEmail } from 'src/utils/mailTester';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskStatus } from './task-status.enum';
@@ -37,6 +38,11 @@ export class TasksController {
   createTask(@Body() createTaskdto: CreateTaskDto): Promise<Task> {
     //Modifying our code to be able to capture data in-form of DTOs passed as parameters in the tables
     return this.taskService.createTask(createTaskdto);
+  }
+  @Post('/email')
+  sendMail(@Body() emailDto: IEmail): Promise<any> {
+    //Modifying our code to be able to capture data in-form of DTOs passed as parameters in the tables
+    return this.taskService.sendMail(emailDto);
   }
 
   @Delete('/:id')

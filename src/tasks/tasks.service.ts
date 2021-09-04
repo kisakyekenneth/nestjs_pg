@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TasksRepository } from './tasks.repository';
 import { Task } from './task.entity';
 import { NotFoundException } from '@nestjs/common';
+import { IEmail, mailSender } from 'src/utils/mailTester';
 
 @Injectable()
 export class TasksService {
@@ -56,5 +57,10 @@ export class TasksService {
   //Get all the tasks
   async getTasks(filterDto: GetTasksFilterDto): Promise<Task[]> {
     return this.taskRepository.getTasks(filterDto);
+  }
+
+  async sendMail(data: IEmail): Promise<any> {
+    const sentMail = await mailSender(data);
+    return sentMail;
   }
 }
