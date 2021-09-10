@@ -6,7 +6,6 @@ export interface IEmail {
   html: string;
 }
 
-// async..await is not allowed in global scope, must use a wrapper
 export async function mailSender(data: IEmail) {
   // create reusable transporter object using the default SMTP transport
 
