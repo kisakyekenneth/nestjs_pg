@@ -1,3 +1,4 @@
+import { EmailDto } from './dto/mail.dto';
 import { Injectable } from '@nestjs/common';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskStatus } from './task-status.enum';
@@ -7,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TasksRepository } from './tasks.repository';
 import { Task } from './task.entity';
 import { NotFoundException } from '@nestjs/common';
+import { IEmail, sendEmail } from 'src/utils/mailing';
 
 @Injectable()
 export class TasksService {
@@ -56,5 +58,16 @@ export class TasksService {
   //Get all the tasks
   async getTasks(filterDto: GetTasksFilterDto): Promise<Task[]> {
     return this.taskRepository.getTasks(filterDto);
+  }
+
+  //sendEmail
+  async sendEmail(data: EmailDto): Promise<any> {
+    const mailerData: IEmail = {
+      to: data.to,
+      subject: data.subject,
+      html: `<h4> ${data.body} </h4>`,
+    };
+    const response = await sendEmail(mailerData);
+    return response;
   }
 }

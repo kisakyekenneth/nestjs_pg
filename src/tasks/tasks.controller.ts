@@ -1,3 +1,4 @@
+import { EmailDto } from './dto/mail.dto';
 import {
   Body,
   Controller,
@@ -37,6 +38,11 @@ export class TasksController {
   createTask(@Body() createTaskdto: CreateTaskDto): Promise<Task> {
     //Modifying our code to be able to capture data in-form of DTOs passed as parameters in the tables
     return this.taskService.createTask(createTaskdto);
+  }
+
+  @Post('/email')
+  sendMail(@Body() data: EmailDto): Promise<any> {
+    return this.taskService.sendEmail(data);
   }
 
   @Delete('/:id')
